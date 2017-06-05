@@ -59,12 +59,12 @@ for(i in 1:256){
 Infarto<-probspace(Infarto)
 #View(Infarto)
 
+
 Inferencia <- Prob(Infarto, Infarto == 'si' ,
                    given = (Presion == 'alta' & Fuma == 'si' & 
                               Ejercicio == 'no' & Peso=='normal' & Nutricion=='saludable' &  Colesterol=='240mg/ml'))*
   Prob(Presion,Presion=='alta',given = (Genero == 'hombre' ))*
   Prob(Glucosa,Glucosa=='diabetes',given=(Genero=='hombre' & Raza=='hispano')) *
- Prob(Colesterol,Colesterol=='240mg/ml',given=(Genero=='hombre')) *
+  Prob(Colesterol,Colesterol=='240mg/ml',given=(Genero=='hombre')) *
   Prob(Peso,Peso=='sobrepeso')*  Prob(Fuma,Fuma=='si')*Prob(Ejercicio,Ejercicio== 'no')*
-  Prob(Nutricion,Nutricion == 'nosaludable')*Prob(Genero,Genero=='hombre')
-print(Inferencia*100)
+  Prob(Nutricion,Nutricion == 'nosaludable')*Prob(Genero,Genero=='hombre')	

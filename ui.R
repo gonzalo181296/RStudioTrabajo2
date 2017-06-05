@@ -8,17 +8,18 @@ fluidPage(
     sidebarPanel(
       # create some select inputs
       lapply(1:9, function(i) {
-        selectInput(paste0('a', i), Preguntas$V1[i],
-                    choices <- c("Elija uno" = "",list(Preguntas$V2[i],Preguntas$V3[i],
-                      Preguntas$V4[i],Preguntas$V5[i])),selectize = TRUE)
-      }),width = 20
+        selectInput(Preguntas$V1[i], Preguntas$V2[i],
+                    choices <- c("Elija uno" = "",list(Preguntas$V3[i],Preguntas$V4[i],
+                      Preguntas$V5[i],Preguntas$V6[i])))
+      }),width = 20,
+      submitButton("Calcular!")
     ),
     
     mainPanel(
-      #verbatimTextOutput('a_out')
+      verbatimTextOutput('probabilidad')
       
       # UI output
-      #lapply(1:10, function(i) {
+      #lapply(1:9, function(i) {
       #  uiOutput(paste0('b', i))
       #})
     )
