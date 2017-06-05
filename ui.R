@@ -9,7 +9,8 @@ fluidPage(
       # create some select inputs
       lapply(1:9, function(i) {
         selectInput(paste0('a', i), Preguntas$V1[i],
-                    choices <- c("Choose one" = "",list(Preguntas$V2[i],Preguntas$V3[i],Preguntas$V4[i],Preguntas$V5[i],Preguntas$V6[i],Preguntas$V7[i])))
+                    choices <- c("Elija uno" = "",list(Preguntas$V2[i],Preguntas$V3[i],
+                      Preguntas$V4[i],Preguntas$V5[i])),selectize = TRUE)
       }),width = 20
     ),
     
