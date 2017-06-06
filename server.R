@@ -1,12 +1,12 @@
 library(shiny)
 library(combinat)
 library(prob)
-Ejercicio <- data.frame(Ejercicio=c('si','no'),probs=c(0.1,0.9))
-Genero<-data.frame(Genero=c('hombre','mujer'),probs=c(0.4,0.6))
+Ejercicio <- data.frame(Ejercicio=c('si','no'),probs=c(0.3040,0.6960))
+Genero<-data.frame(Genero=c('hombre','mujer'),probs=c(0.54,0.46))
 Raza<-data.frame(Raza=c('blanco','afroamericano','hispano','asiatico'))
 Raza<-probspace(Raza)
-Nutricion <- data.frame(Nutricion=c('saludable','nosaludable'),probs=c(0.4,0.6))
-Peso <- data.frame(Nutricion=c('normal','sobrepeso'),probs=c(0.2,0.8))
+Nutricion <- data.frame(Nutricion=c('saludable','nosaludable'),probs=c(0.015,0.985))
+Peso <- data.frame(Nutricion=c('normal','sobrepeso'),probs=c(0.3770,0.6230))
 
 Fuma <- expand.grid(Genero=c('hombre','mujer'),Raza=c('blanco','afroamericano','hispano','asiatico'),
                     Fuma=c('si','no'))
