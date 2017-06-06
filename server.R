@@ -7,16 +7,7 @@ Raza<-data.frame(Raza=c('blanco','afroamericano','hispano','asiatico'))
 Raza<-probspace(Raza)
 Nutricion <- data.frame(Nutricion=c('saludable','nosaludable'),probs=c(0.015,0.985))
 Peso <- data.frame(Nutricion=c('normal','sobrepeso'),probs=c(0.3770,0.6230))
-
-Fuma <- expand.grid(Genero=c('hombre','mujer'),Raza=c('blanco','afroamericano','hispano','asiatico'),
-                    Fuma=c('si','no'))
-Datos <- read.table(file = 'Fuma.txt')
-Fuma<- data.frame(Fuma,Datos)
-Fuma<- probspace(Fuma)
-for(i in 1:16){
-  Fuma$probs[i] = Fuma$V1[i]/sum(Fuma$V1)
-}
-
+Fuma <- data.frame(Nutricion=c('si','no'),probs=c(0.824625,0.175375))
 
 Presion<-expand.grid(Genero=c('hombre','mujer'),Raza=c('blanco','afroamericano','hispano','asiatico'),
                      Presion=c('alta','otra'))
@@ -61,10 +52,14 @@ Infarto<-probspace(Infarto)
 #View(Infarto)
 
 Inferencia <- Prob(Infarto, Infarto == 'si' ,
-                   given = (Presion == 'alta' & Fuma == 'si' & Glucosa=='diabetes' &
+                   given = (Presion == 'alta' & Fuma == 'si' & 
                               Ejercicio == 'no' & Peso=='normal' & Nutricion=='saludable' &  Colesterol=='240mg/ml'))*
-  Prob(Presion,Presion=='alta',given = (Genero == 'hombre' ))
-print(Prob(Glucosa,Glucosa=='diabetes'))
+  Prob(Presion,Presion=='alta',given = (Genero == 'hombre' & Raza=='hispano'))*
+  Prob(Glucosa,Glucosa=='diabetes',given=(Genero=='hombre' & Raza=='hispano')) *
+  Prob(Colesterol,Colesterol=='240mg/ml',given=(Genero=='hombre')) *
+  Prob(Peso,Peso=='sobrepeso')*  Prob(Fuma,Fuma=='si')*Prob(Ejercicio,Ejercicio== 'no')*
+  Prob(Nutricion,Nutricion == 'nosaludable')*Prob(Genero,Genero=='hombre')	
+
 print(Inferencia)
 
 function(input, output) {
@@ -74,20 +69,10 @@ output$probabilidad <- renderText(
     c('Tu probabilidad de tener un paro cardiaco es = ',Prob(Infarto, Infarto =='si' ,
                                    given =(Presion==input$presion & Fuma ==input$fuma & Glucosa==input$glucosa &
                                    Ejercicio ==input$ejercicio & Peso==input$peso & Nutricion==input$nutricion &  Colesterol==input$colesterol))*
-        Prob(Presion,Presion==input$presion,given = (Genero == input$genero ))*
+        Prob(Presion,Presion==input$presion,given = (Genero==input$genero & Raza==input$raza))*
         Prob(Glucosa,Glucosa==input$glucosa,given=(Genero==input$genero & Raza==input$raza)) *
         Prob(Colesterol,Colesterol==input$colesterol,given=(Genero==input$genero)) *
         Prob(Peso,Peso==input$peso)*  Prob(Fuma,Fuma==input$fuma)*Prob(Ejercicio,Ejercicio== input$ejercicio)*
         Prob(Nutricion,Nutricion == input$nutricion)*Prob(Genero,Genero==input$genero)
-      
-      
-      
-      
       ))
-  
-  ##lapply(1:10, function(i) {
-  ##output[[paste0('b', i)]] <- renderUI({
-  ##    strong(paste0('Hi, this is output B#', i))
-  ##  })
-  ##})
 }

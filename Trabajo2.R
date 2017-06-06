@@ -1,21 +1,12 @@
 library(combinat)
 library(prob)
-Ejercicio <- data.frame(Ejercicio=c('si','no'),probs=c(0.1,0.9))
-Genero<-data.frame(Genero=c('hombre','mujer'),probs=c(0.4,0.6))
+Ejercicio <- data.frame(Ejercicio=c('si','no'),probs=c(0.3040,0.6960))
+Genero<-data.frame(Genero=c('hombre','mujer'),probs=c(0.54,0.46))
 Raza<-data.frame(Raza=c('blanco','afroamericano','hispano','asiatico'))
 Raza<-probspace(Raza)
-Nutricion <- data.frame(Nutricion=c('saludable','nosaludable'),probs=c(0.4,0.6))
-Peso <- data.frame(Nutricion=c('normal','sobrepeso'),probs=c(0.2,0.8))
-
-Fuma <- expand.grid(Genero=c('hombre','mujer'),Raza=c('blanco','afroamericano','hispano','asiatico'),
-                    Fuma=c('si','no'))
-Datos <- read.table(file = 'Fuma.txt')
-Fuma<- data.frame(Fuma,Datos)
-Fuma<- probspace(Fuma)
-for(i in 1:16){
-  Fuma$probs[i] = Fuma$V1[i]/sum(Fuma$V1)
-}
-
+Nutricion <- data.frame(Nutricion=c('saludable','nosaludable'),probs=c(0.015,0.985))
+Peso <- data.frame(Nutricion=c('normal','sobrepeso'),probs=c(0.3770,0.6230))
+Fuma <- data.frame(Nutricion=c('si','no'),probs=c(0.824625,0.175375))
 
 Presion<-expand.grid(Genero=c('hombre','mujer'),Raza=c('blanco','afroamericano','hispano','asiatico'),
                      Presion=c('alta','otra'))
@@ -59,12 +50,13 @@ for(i in 1:256){
 Infarto<-probspace(Infarto)
 #View(Infarto)
 
-
 Inferencia <- Prob(Infarto, Infarto == 'si' ,
                    given = (Presion == 'alta' & Fuma == 'si' & 
                               Ejercicio == 'no' & Peso=='normal' & Nutricion=='saludable' &  Colesterol=='240mg/ml'))*
-  Prob(Presion,Presion=='alta',given = (Genero == 'hombre' ))*
+  Prob(Presion,Presion=='alta',given = (Genero == 'hombre' & Raza=='hispano'))*
   Prob(Glucosa,Glucosa=='diabetes',given=(Genero=='hombre' & Raza=='hispano')) *
   Prob(Colesterol,Colesterol=='240mg/ml',given=(Genero=='hombre')) *
   Prob(Peso,Peso=='sobrepeso')*  Prob(Fuma,Fuma=='si')*Prob(Ejercicio,Ejercicio== 'no')*
   Prob(Nutricion,Nutricion == 'nosaludable')*Prob(Genero,Genero=='hombre')	
+
+print(Inferencia)
